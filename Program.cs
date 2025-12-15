@@ -69,22 +69,7 @@ namespace sokoban
             InitHeroPosition();
             Timer = Stopwatch.StartNew();
         }
-
-        private void InitHeroPosition()
-        {
-            for (var y = 0; y < map.GetLength(0); y++)
-            {
-                for (var x = 0; x < map.GetLength(1); x++)
-                {
-                    if (map[y, x] == 4 || map[y, x] == 6)
-                    {
-                        Player = new Player(x, y);
-                        return;
-                    }
-                }
-            }
-        }
-
+        
         public void DrawMap()
         {
             for (var y = 0; y < map.GetLength(0); y++)
@@ -96,41 +81,7 @@ namespace sokoban
             }
             UpdateStats();
         }
-
-        private void DrawCell(int x, int y)
-        {
-            var screenY = y + offsetY;
-
-            if (screenY < 0 || screenY >= Console.BufferHeight ||
-                x < 0 || x >= Console.BufferWidth)
-                return;
-
-            Console.CursorLeft = x;
-            Console.CursorTop = screenY;
-
-            var cell = map[y, x];
-
-            if (cell == 1)
-            {
-                Console.BackgroundColor = ConsoleColor.White;
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.Write((char)166);
-                Console.BackgroundColor = ConsoleColor.Black;
-                return;
-            }
-
-            switch (cell)
-            {
-                case 0: Console.Write(" "); break;
-                case 2: Console.Write("0"); break;
-                case 3: Console.Write("#"); break;
-                case 4: Console.Write("X"); break;
-                case 5: Console.Write("0"); break;
-                case 6: Console.Write("X"); break;
-                default: Console.Write(" "); break;
-            }
-        }
-
+        
         public void UpdateStats()
         {
             var statsRow = Height + offsetY + 2;
@@ -180,7 +131,69 @@ namespace sokoban
             StepCount++;
             UpdateStats();
         }
+        
+        public bool IsWin()
+        {
+            for (var y = 0; y < map.GetLength(0); y++)
+            {
+                for (var x = 0; x < map.GetLength(1); x++)
+                {
+                    if (map[y, x] == 3) 
+                        return false;
+                }
+            }
+            return true;
+        }
+        
+        private void InitHeroPosition()
+        {
+            for (var y = 0; y < map.GetLength(0); y++)
+            {
+                for (var x = 0; x < map.GetLength(1); x++)
+                {
+                    if (map[y, x] == 4 || map[y, x] == 6)
+                    {
+                        Player = new Player(x, y);
+                        return;
+                    }
+                }
+            }
+        }
+        
+        private void DrawCell(int x, int y)
+        {
+            var screenY = y + offsetY;
 
+            if (screenY < 0 || screenY >= Console.BufferHeight ||
+                x < 0 || x >= Console.BufferWidth)
+                return;
+
+            Console.CursorLeft = x;
+            Console.CursorTop = screenY;
+
+            var cell = map[y, x];
+
+            if (cell == 1)
+            {
+                Console.BackgroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write((char)166);
+                Console.BackgroundColor = ConsoleColor.Black;
+                return;
+            }
+
+            switch (cell)
+            {
+                case 0: Console.Write(" "); break;
+                case 2: Console.Write("0"); break;
+                case 3: Console.Write("#"); break;
+                case 4: Console.Write("X"); break;
+                case 5: Console.Write("0"); break;
+                case 6: Console.Write("X"); break;
+                default: Console.Write(" "); break;
+            }
+        }
+        
         private void MoveHeroTo(int newX, int newY)
         {
             var oldCell = map[Player.Y, Player.X];
@@ -205,19 +218,6 @@ namespace sokoban
 
             DrawCell(fromX, fromY); 
             DrawCell(toX, toY);
-        }
-
-        public bool IsWin()
-        {
-            for (var y = 0; y < map.GetLength(0); y++)
-            {
-                for (var x = 0; x < map.GetLength(1); x++)
-                {
-                    if (map[y, x] == 3) 
-                        return false;
-                }
-            }
-            return true;
         }
     }
 
