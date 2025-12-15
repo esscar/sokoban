@@ -72,9 +72,9 @@ namespace sokoban
 
         private void InitHeroPosition()
         {
-            for (int y = 0; y < map.GetLength(0); y++)
+            for (var y = 0; y < map.GetLength(0); y++)
             {
-                for (int x = 0; x < map.GetLength(1); x++)
+                for (var x = 0; x < map.GetLength(1); x++)
                 {
                     if (map[y, x] == 4 || map[y, x] == 6)
                     {
@@ -87,9 +87,9 @@ namespace sokoban
 
         public void DrawMap()
         {
-            for (int y = 0; y < map.GetLength(0); y++)
+            for (var y = 0; y < map.GetLength(0); y++)
             {
-                for (int x = 0; x < map.GetLength(1); x++)
+                for (var x = 0; x < map.GetLength(1); x++)
                 {
                     DrawCell(x, y);
                 }
@@ -99,7 +99,7 @@ namespace sokoban
 
         private void DrawCell(int x, int y)
         {
-            int screenY = y + offsetY;
+            var screenY = y + offsetY;
 
             if (screenY < 0 || screenY >= Console.BufferHeight ||
                 x < 0 || x >= Console.BufferWidth)
@@ -108,7 +108,7 @@ namespace sokoban
             Console.CursorLeft = x;
             Console.CursorTop = screenY;
 
-            int cell = map[y, x];
+            var cell = map[y, x];
 
             if (cell == 1)
             {
@@ -133,7 +133,7 @@ namespace sokoban
 
         public void UpdateStats()
         {
-            int statsRow = Height + offsetY + 2;
+            var statsRow = Height + offsetY + 2;
 
             if (statsRow >= Console.BufferHeight)
                 statsRow = Console.BufferHeight - 1;
@@ -149,8 +149,8 @@ namespace sokoban
 
         public void TryMoveHero(int dx, int dy)
         {
-            int targetX = Player.X + dx;
-            int targetY = Player.Y + dy;
+            var targetX = Player.X + dx;
+            var targetY = Player.Y + dy;
             
             if (targetX < 0 || targetX >= Width || 
                 targetY < 0 || targetY >= Height)
@@ -166,8 +166,8 @@ namespace sokoban
                 return;
             }
 
-            int boxTargetX = targetX + dx;
-            int boxTargetY = targetY + dy;
+            var boxTargetX = targetX + dx;
+            var boxTargetY = targetY + dy;
             
             if (boxTargetX < 0 || boxTargetX >= Width || 
                 boxTargetY < 0 || boxTargetY >= Height)
@@ -183,10 +183,10 @@ namespace sokoban
 
         private void MoveHeroTo(int newX, int newY)
         {
-            int oldCell = map[Player.Y, Player.X];
+            var oldCell = map[Player.Y, Player.X];
             map[Player.Y, Player.X] = (oldCell == 6) ? 3 : 0;
 
-            int nextCell = map[newY, newX];
+            var nextCell = map[newY, newX];
             map[newY, newX] = (nextCell == 3) ? 6 : 4;
 
             DrawCell(Player.X, Player.Y);  
@@ -197,8 +197,8 @@ namespace sokoban
 
         private void MoveBox(int fromX, int fromY, int toX, int toY)
         {
-            int fromCell = map[fromY, fromX];
-            int toCell = map[toY, toX];
+            var fromCell = map[fromY, fromX];
+            var toCell = map[toY, toX];
 
             map[fromY, fromX] = (fromCell == 5) ? 3 : 0;
             map[toY, toX] = (toCell == 3) ? 5 : 2;
@@ -209,9 +209,9 @@ namespace sokoban
 
         public bool IsWin()
         {
-            for (int y = 0; y < map.GetLength(0); y++)
+            for (var y = 0; y < map.GetLength(0); y++)
             {
-                for (int x = 0; x < map.GetLength(1); x++)
+                for (var x = 0; x < map.GetLength(1); x++)
                 {
                     if (map[y, x] == 3) 
                         return false;
@@ -247,8 +247,8 @@ namespace sokoban
                 throw new ArgumentException($"Файл уровня пуст: {filename}");
             }
 
-            int height = lines.Length;
-            int width = lines[0].Length;
+            var height = lines.Length;
+            var width = lines[0].Length;
 
             foreach (var line in lines)
             {
@@ -260,11 +260,11 @@ namespace sokoban
 
             int[,] map = new int[height, width];
 
-            for (int y = 0; y < height; y++)
+            for (var y = 0; y < height; y++)
             {
-                for (int x = 0; x < width; x++)
+                for (var x = 0; x < width; x++)
                 {
-                    char c = lines[y][x];
+                    var c = lines[y][x];
                     if (char.IsDigit(c))
                     {
                         map[y, x] = c - '0'; // '0' -> 0, '1' -> 1, и т.д.
@@ -288,11 +288,11 @@ namespace sokoban
 
         static void LoadPlayerHistory()
         {
-            string filename = "player_history.txt";
+            var filename = "player_history.txt";
             if (File.Exists(filename))
             {
                 string[] lines = File.ReadAllLines(filename);
-                foreach (string line in lines)
+                foreach (var line in lines)
                 {
                     string[] parts = line.Split('|');
                     if (parts.Length >= 3)
@@ -313,7 +313,7 @@ namespace sokoban
 
         static void LoadLevelStats()
         {
-            string filename = "stats_level.txt";
+            var filename = "stats_level.txt";
             if (File.Exists(filename))
             {
                 string[] lines = File.ReadAllLines(filename);
@@ -343,14 +343,14 @@ namespace sokoban
 
         static void SavePlayerHistory()
         {
-            string filename = "player_history.txt";
+            var filename = "player_history.txt";
             var lines = playerHistory.Select(p => $"{p.Name}|{p.LevelsCompleted}|{p.LastPlayed}");
             File.WriteAllLines(filename, lines);
         }
 
         static void SaveLevelStats()
         {
-            string filename = "level_stats.txt";
+            string filename = "stats_level.txt";
             var lines = levelStats.Select(s => $"{s.PlayerName}|{s.LevelNumber}|{s.Steps}|{s.Time}|{s.CompletedAt}");
             File.WriteAllLines(filename, lines);
         }
@@ -400,7 +400,8 @@ namespace sokoban
                 while (true)
                 {
                     ConsoleKeyInfo key = Console.ReadKey(true);
-                    int dx = 0, dy = 0;
+                    var dx = 0;
+                    var dy = 0;
 
                     if (key.Key == ConsoleKey.LeftArrow) dx = -1;
                     else if (key.Key == ConsoleKey.RightArrow) dx = 1;
@@ -420,7 +421,7 @@ namespace sokoban
                         map.Timer.Stop();
                         RecordLevelCompletion(levelIndex, map);
 
-                        int winRow = map.Height + map.DrawOffsetY + 4;
+                        var winRow = map.Height + map.DrawOffsetY + 4;
                         if (winRow >= Console.BufferHeight - 1)
                             winRow = Console.BufferHeight - 2;
 
@@ -534,7 +535,7 @@ namespace sokoban
             while (true)
             {
                 ShowMenu();
-                string input = Console.ReadLine();
+                var input = Console.ReadLine();
 
                 if (input == "1")
                 {
@@ -548,9 +549,9 @@ namespace sokoban
                     }
 
                     GetPlayerName();
-                    int completedLevels = 0;
+                    var completedLevels = 0;
                     
-                    for (int i = 0; i < levelFiles.Length; i++)
+                    for (var i = 0; i < levelFiles.Length; i++)
                     {
                         PlayLevel(i, levelFiles[i]);
                         completedLevels++;
