@@ -1,0 +1,6 @@
+D:\study\c#_kontur\sokoban\sokoban\sokoban\bin\Debug\sokoban.exe
+D:\study\c#_kontur\sokoban\sokoban\sokoban\bin\Debug\sokoban.pdb
+D:\study\c#_kontur\sokoban\sokoban\sokoban\obj\Debug\sokoban.csproj.AssemblyReference.cache
+D:\study\c#_kontur\sokoban\sokoban\sokoban\obj\Debug\sokoban.csproj.CoreCompileInputs.cache
+D:\study\c#_kontur\sokoban\sokoban\sokoban\obj\Debug\sokoban.exe
+D:\study\c#_kontur\sokoban\sokoban\sokoban\obj\Debug\sokoban.pdb
